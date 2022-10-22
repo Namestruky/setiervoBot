@@ -1,0 +1,23 @@
+{
+  "name": "setiervobot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://namestruky@github.com/Namestruky/setiervoBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Namestruky/setiervoBot/issues"
+  },
+  "homepage": "https://github.com/Namestruky/setiervoBot#readme",
+  "dependencies": {
+    "discord.js": "^14.6.0"
+  }
+}
