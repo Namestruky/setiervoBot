@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const { OpusEncoder } = require('@discordjs/opus');
+
 const client = new Discord.Client({
     intents: ['DirectMessages' ,'DirectMessageReactions', 'Guilds', 'GuildBans', 'GuildEmojisAndStickers', 'GuildMessages', 'MessageContent', 'GuildMessageReactions','GuildVoiceStates','GuildMembers']
 });
@@ -29,6 +31,8 @@ client.on('ready', () => {
     console.log('Bot conectado y listo');
     //client.channels.cache.get(CHANNEL_ID).send('Estoy conectado y listo');
     //sendMessage('Mensaje de prueba');
+    console.log(client.player);
+    client.player = new Player
 });
 
 client.on('messageCreate', (message) => {
@@ -100,4 +104,6 @@ function randomRange(min, max) {
     return Math.floor(
       Math.random() * (max - min) + min
     )
-  }
+}
+
+

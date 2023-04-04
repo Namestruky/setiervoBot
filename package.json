@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Namestruky/setiervoBot#readme",
   "dependencies": {
     "discord.js": "^14.6.0",
-    "distube": "^4.0.4"
+    "distube": "^4.0.4",
+    "ffmpeg-static": "^4.4.1"
   }
 }
