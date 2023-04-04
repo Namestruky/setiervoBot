@@ -1,9 +1,27 @@
-const Discord = require('discord.js');
-const { OpusEncoder } = require('@discordjs/opus');
+const { randomRange, sendMessage } = require('./utils.js');
+const {Client,Collection, GatewayIntentBits} = require('discord.js');
 
-const client = new Discord.Client({
-    intents: ['DirectMessages' ,'DirectMessageReactions', 'Guilds', 'GuildBans', 'GuildEmojisAndStickers', 'GuildMessages', 'MessageContent', 'GuildMessageReactions','GuildVoiceStates','GuildMembers']
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
 });
+
+// Gestión comandos
+
+client.commands = new Collection();
+
+const fs = require('fs');
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for(const file of commandFiles){
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.data.name, command);
+}
+
+// Declaración constantes
 
 const PREFIX = '';
 const CONFIG = require('./config.json');
@@ -21,89 +39,40 @@ const DEFAULT_MESSAGES = [
                             'Como no se que me pides te cuento un chiste, "Hola, ¿tienen libros para el cansancio? - Sí, pero están agotados."'
                         ];
 
+// Flujo Principal
+
 client.login(CONFIG.token);
+ 
 
-
-
-client.on('ready', () => {
+client.once('ready', () => {
     
     client.user.setActivity('Arruinarte la vida');
-    console.log('Bot conectado y listo');
+
     //client.channels.cache.get(CHANNEL_ID).send('Estoy conectado y listo');
     //sendMessage('Mensaje de prueba');
-    console.log(client.player);
-    client.player = new Player
-});
-
-client.on('messageCreate', (message) => {
-
-    //console.log(message);
-
-    if (message.channelId != CHANNEL_ID || message.author.bot) return false;
     
-    switch (message.content.split(' ')[0].toLowerCase()) {
-        case 'reproducir':
-            sendMessage('En algún momento podré reproducir música, de momento te jodes y pagas Spotify');
-            break;
-
-        case 'ruleta':
-            ruletaRusa(message);
-            break;
-
-        default:
-            sendMessage(DEFAULT_MESSAGES[randomRange(0,DEFAULT_MESSAGES.length)]);
-            break;
-    }
-
+    console.log('Bot conectado y listo');
 });
 
-/**
- * Envía un mensaje texto plano al canal definido en {{CHANNEL_ID}}
- * @param {string} messageBody Texto del mensaje
- */
-function sendMessage(messageBody) {
-    client.channels.cache.get(CHANNEL_ID).send(messageBody).then(() => {
-        console.log('Mensaje enviado', messageBody);
-    });
-}
+client.on('messageCreate', async (message) => { 
 
-/**
- * 
- */
-function ruletaRusa(message) {
-            
-    if(message.member.voice){
-        let voice = message.member.voice;
-        //console.log('Voice',voice.channelId);
-        let channelMembers = client.channels.cache.get(voice.channelId).members;
-        //console.log(Array.from(channelMembers.keys()).toString());
-        let members = Array.from(channelMembers.keys());
+    if(!message.content.startsWith(CONFIG.prefix)) return;
 
-        userToKick =  message.guild.members.cache.get(members[randomRange(0,members.length)]);
+    var command = message.content.split(' ')[0].substring(1);
+    var parameter = message.content.split(' ').slice(1);
 
-        /*
-        userToKick.kick('Has sido víctima de la ruleta rusa').then(() => {
-            sendMessage('Se ha kickeado a ' + userToKick.displayName);
-        })
-        */
+    console.log(command, parameter);
 
-        userToKick.voice.setChannel('689959836007399445').then(() => {
-            sendMessage('Se ha movido a ' + userToKick.displayName);
-        });
+    if(!client.commands.has(command)) {
+        console.log('Error ejecutando '.command);
+        message.reply({content: DEFAULT_MESSAGES[randomRange(0,DEFAULT_MESSAGES.length)],ephemeral: true});
+        return; 
+    } 
+    
+    try {
+        await client.commands.get(command).execute(message,client);
+    } catch (error) {
+        console.error(error);
     }
-}
-
-
-/**
- * Número aleatorio entre min y max (max no incluido)
- * @param {Number} min Mínimo
- * @param {Number} max Máximo
- * @returns number
- */
-function randomRange(min, max) {  
-    return Math.floor(
-      Math.random() * (max - min) + min
-    )
-}
-
+});
 
