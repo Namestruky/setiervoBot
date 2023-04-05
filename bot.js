@@ -36,7 +36,11 @@ const DEFAULT_MESSAGES = [
                             'Bocachancla, ¿por qué escribes cosas que no entiendo?',
                             'Te voy a dar un manual para subnormales, para que te entiendas tu mismo.',
                             'Shut the fuck up!',
-                            'Como no se que me pides te cuento un chiste, "Hola, ¿tienen libros para el cansancio? - Sí, pero están agotados."'
+                            'Como no se que me pides te cuento un chiste, "Hola, ¿tienen libros para el cansancio? - Sí, pero están agotados."',
+                            '¡Increíble! Realmente estás dando lo mejor de ti, sigue intentando que te entiendan',
+                            'Estaría de acuerdo contigo, pero luego ambos estaríamos equivocados, por que no te entiendo',
+                            'No te entiendo, así que tu puta madre por si acaso.',
+                            'No existen las preguntas tontas, solo las personas tontas. ¿O era al contrario?'
                         ];
 
 // Flujo Principal
