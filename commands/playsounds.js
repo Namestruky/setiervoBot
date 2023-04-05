@@ -18,28 +18,31 @@ module.exports = {
             
             const player = createAudioPlayer();
             
-            player.on('error', (error) => {
-                console.log("El audio funciona como una puta mierda")
-            });
+            try {
+                const resource = createAudioResource(`sounds/${parameter}.mp3`);
 
-            const resource = createAudioResource("sounds/cancion.mp3");
-           
+                player.on('error', (error) => {
+                    console.log("No existe ese audio");
+                });
 
-            player.play(resource);
+                player.play(resource);
 
-            const conexionCanal = joinVoiceChannel({
-                channelId: voiceChannelId,
-                guildId: guildId,
-                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-            });
-
-            const subscripcion = conexionCanal.subscribe(player);
-
-            //Cuando termina lo que este reproduciendo, se sale
-            player.on(AudioPlayerStatus.Idle, () => {
-                subscripcion.unsubscribe();
-                conexionCanal.disconnect();
-            });
+                const conexionCanal = joinVoiceChannel({
+                    channelId: voiceChannelId,
+                    guildId: guildId,
+                    adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+                });
+    
+                const subscripcion = conexionCanal.subscribe(player);
+    
+                //Cuando termina lo que este reproduciendo, se sale
+                player.on(AudioPlayerStatus.Idle, () => {
+                    subscripcion.unsubscribe();
+                    conexionCanal.disconnect();
+                });
+            } catch (error) {
+                console.log(error);
+            } 
         }
 	}
 };
