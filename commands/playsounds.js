@@ -18,16 +18,12 @@ module.exports = {
             
             const player = createAudioPlayer();
             
-
-            player.on(AudioPlayerStatus.Playing, () => {
-                console.log("El audio funciona genial")
-            });
-
             player.on('error', (error) => {
                 console.log("El audio funciona como una puta mierda")
             });
 
             const resource = createAudioResource("sounds/cancion.mp3");
+           
 
             player.play(resource);
 
@@ -39,13 +35,11 @@ module.exports = {
 
             const subscripcion = conexionCanal.subscribe(player);
 
-            if(subscripcion){
-                setTimeout(() =>{
-                    subscripcion.unsubscribe();
-                    conexionCanal.disconnect();
-                }, 3000);
-            }
-
+            //Cuando termina lo que este reproduciendo, se sale
+            player.on(AudioPlayerStatus.Idle, () => {
+                subscripcion.unsubscribe();
+                conexionCanal.disconnect();
+            });
         }
 	}
 };
