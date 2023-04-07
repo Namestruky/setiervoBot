@@ -52,6 +52,7 @@ module.exports = {
                     player.on(AudioPlayerStatus.Idle, () => {
                         subscripcion.unsubscribe();
                         conexionCanal.disconnect();
+                        message.reply("Sonido "+parameter+" reproducido correctemente.");
                     });
                 } catch (error) {
                     console.log(error);
