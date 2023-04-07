@@ -26,7 +26,7 @@ module.exports = {
 
                 files.forEach(element => listado.push(" "+element.substr(0,element.indexOf('.'))));
 
-                message.reply("Litado de la lista de sonidos --> " + listado);
+                message.reply("Lista de sonidos --> " + listado);
 
             }else{
                 const player = createAudioPlayer();
@@ -35,7 +35,7 @@ module.exports = {
                     const resource = createAudioResource(`sounds/${parameter}.mp3`);
 
                     player.on('error', (error) => {
-                        console.log("No existe ese audio");
+                        message.reply("No existe ese audio mongolín.");
                     });
 
                     player.play(resource);
@@ -52,6 +52,7 @@ module.exports = {
                     player.on(AudioPlayerStatus.Idle, () => {
                         subscripcion.unsubscribe();
                         conexionCanal.disconnect();
+                        message.reply("Sonido "+parameter+" reproducido correctemente.");
                     });
                 } catch (error) {
                     console.log(error);
