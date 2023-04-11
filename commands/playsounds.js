@@ -21,6 +21,7 @@ module.exports = {
             const listado = [];
             const files = await fs.promises.readdir('sounds');
             files.forEach(element => listado.push(" "+element.substr(0,element.indexOf('.'))));
+            const contador = 10000;
 
 
             if(parameter == 'listar'){
@@ -59,14 +60,19 @@ module.exports = {
             
                         //Cuando termina lo que este reproduciendo, se sale
                         player.on(AudioPlayerStatus.Idle, () => {
-                            subscripcion.unsubscribe();
-                            conexionCanal.disconnect();
-                            message.reply("Sonido "+parameter+" reproducido correctemente.");
+                            setTimeout(() => desconectar(subscripcion,conexionCanal),1800000);
                         });
                     }
                 } catch (error) {
                     console.log(error);
                 } 
+            }
+
+            function desconectar(subscripcion, conexionCanal){
+                subscripcion.unsubscribe();
+                conexionCanal.disconnect();
+                message.reply("Sonido "+parameter+" reproducido correctemente.");
+
             }
             
         }
