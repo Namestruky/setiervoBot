@@ -71,7 +71,7 @@ module.exports = {
             function desconectar(subscripcion, conexionCanal){
                 subscripcion.unsubscribe();
                 conexionCanal.disconnect();
-                message.reply("Sonido "+parameter+" reproducido correctemente.");
+                message.reply({content: "Sonido "+parameter+" reproducido correctemente.", ephemeral: true});
 
             }
             
