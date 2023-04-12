@@ -66,7 +66,7 @@ client.on('messageCreate', async (message) => {
     var command = message.content.split(' ')[0].substring(1);
     var parameter = message.content.split(' ').slice(1);
 
-    console.log(command, parameter);
+    console.log("Comando Solicitado: " + command, "Parámetros: " + parameter);
 
     if(!client.commands.has(command)) {
         console.log('Error ejecutando '.command);
