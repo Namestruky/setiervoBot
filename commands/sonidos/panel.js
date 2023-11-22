@@ -1,4 +1,4 @@
-const { randomRange } = require('../utils.js');
+const { randomRange } = require('../../utils.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } = require('@discordjs/voice');
 const play = require('./play.js');
@@ -19,8 +19,8 @@ module.exports = {
 			.setDescription('Some description here');
         }
 		let array = [
-			'cosa' = 'cosa',
-			'cosa2' = 123
+			'cosa',
+			'cosa2'
 		]
 	}
 };

@@ -1,4 +1,4 @@
-const { randomRange } = require('../utils.js');
+const { randomRange } = require('../../utils.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
