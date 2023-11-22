@@ -52,17 +52,16 @@ module.exports = {
                         console.log(error);
                     });
                 
-
                         player.play(resource);
+                        interaction.reply('Reproduciendo el sonido ' + parameter);
 
                         const conexionCanal = joinVoiceChannel({
                             channelId: voiceChannelId,
                             guildId: guildId,
                             adapterCreator: voiceChannel.guild.voiceAdapterCreator,
                         });
-            
                         const subscripcion = conexionCanal.subscribe(player);
-            
+                        
                         //Cuando termina lo que este reproduciendo, se sale
                         player.on(AudioPlayerStatus.Idle, () => {
                             setTimeout(() => desconectar(subscripcion,conexionCanal),1800000);
