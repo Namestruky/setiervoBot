@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node bot.js",
-    "deploy": "git fetch; git pull; node bot.js"
+    "deploy": "git fetch; git pull; node bot.js; clear; echo \"Actualizado a la última versión de la rama y ejecutando\" "
   },
   "repository": {
     "type": "git",
