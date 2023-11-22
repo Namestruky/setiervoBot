@@ -53,7 +53,6 @@ module.exports = {
                     });
                 
                         player.play(resource);
-                        interaction.reply('Reproduciendo el sonido ' + parameter);
 
                         const conexionCanal = joinVoiceChannel({
                             channelId: voiceChannelId,

@@ -20,7 +20,7 @@ module.exports = {
             //console.log(Array.from(channelMembers.keys()).toString());
             let members = Array.from(channelMembers.values());
             
-            userToKick =  channelMembers.random();
+            userToKick = channelMembers.random();
             
             /*
             userToKick.kick('Has sido víctima de la ruleta rusa').then(() => {
