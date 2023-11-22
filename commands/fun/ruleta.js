@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const data = new SlashCommandBuilder()
         .setName('ruleta')
-        .setDescription('Manda al AFK a alguin aleatorio');
+        .setDescription('Manda al AFK a alguien aleatorio');
 
 module.exports = {
     data,
