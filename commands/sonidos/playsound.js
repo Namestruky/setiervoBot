@@ -65,6 +65,7 @@ module.exports = {
                         player.on(AudioPlayerStatus.Idle, () => {
                             setTimeout(() => desconectar(subscripcion,conexionCanal),1800000);
                         });
+                        interaction.channel.send({content: "Sonido "+parameter+" reproducido correctemente.", ephemeral: true});
                     
                 } catch (error) {
                     console.log(error);
@@ -74,7 +75,6 @@ module.exports = {
             function desconectar(subscripcion, conexionCanal){
                 subscripcion.unsubscribe();
                 conexionCanal.disconnect();
-                interaction.channel.send({content: "Sonido "+parameter+" reproducido correctemente.", ephemeral: true});
 
             }
         }
