@@ -56,7 +56,7 @@ const DEFAULT_MESSAGES = [
 
 // Flujo Principal
 
-client.login(CONFIG.token);
+client.login(process.env.DISCORD_BOT_TOKEN);
  
 
 client.once('ready', () => {
