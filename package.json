@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node bot.js",
+    "start": "node deploy-commands.js; node bot.js",
     "deploy": "git fetch; git pull; node bot.js; clear; node deploy-commands.js; echo \"Actualizado a la última versión de la rama y ejecutando\" "
   },
   "repository": {
