@@ -27,4 +27,4 @@ jobs:
         cache: 'npm'
     - run: npm cache clean --force
     - run: npm ci
-    - run: npm run start --if-present
+    - run: npm run start
