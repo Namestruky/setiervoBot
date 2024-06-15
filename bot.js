@@ -55,6 +55,7 @@ const DEFAULT_MESSAGES = [
                         ];
 
 // Flujo Principal
+console.log('TOKEN', process.env.DISCORD_BOT_TOKEN);
 
 client.login(process.env.DISCORD_BOT_TOKEN);
  
