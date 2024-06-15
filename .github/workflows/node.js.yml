@@ -24,11 +24,11 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      
+
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm cache clean --force
     - run: npm ci
-    - run: npm run start --if-present
+    - run: npm run start
