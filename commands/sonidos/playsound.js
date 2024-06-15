@@ -1,31 +1,46 @@
-const { randomRange } = require('../utils.js');
+const { randomRange } = require('../../utils.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } = require('@discordjs/voice');
 const play = require('./play.js');
+const path = require('path');
 const fs = require('fs');
 const { exitCode } = require('process');
 
+const sonidos = fs.readdirSync(__dirname+'/../../sounds',{withFileTypes: false});
 
-module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('playsound')
-		.setDescription('Reproduce un sonido de la carpeta de sounds.'),
-	async execute(message,client,parameter) {
+const data = new SlashCommandBuilder()
+    .setName('sonido')
+    .setDescription('Replies with your input!')
+    .addStringOption(option =>
+        option.setName('nombre')
+        .setDescription('Sonido que se va a reproducir')
+        .setRequired(true));
+
+sonidos.forEach((sonido) => {
+    const nombreSonido = path.parse(sonido).name;
+    data.options[0].addChoices({name: nombreSonido, value:nombreSonido});
+})
+    
+module.exports = { 
+    data,
+	async execute(interaction) {
 		     
-        if(message.member.voice){
-            
-            const voice = message.member.voice;
-            const voiceChannelId = voice.channelId;
-            const voiceChannel = client.channels.cache.get(voice.channelId);
+        console.log(sonidos);
+        console.log(interaction);
+        const client = interaction.client;
+        const guild = client.guilds.cache.get(interaction.guildId);
+        const member = guild.members.cache.get(interaction.member.user.id);
+        const voiceChannel = member.voice.channel;
+        
+        if(voiceChannel){
+
+            const parameter = interaction.options.getString('nombre')
+            const voiceChannelId = voiceChannel.id;
             const guildId= '196260070261129216';
             const listado = [];
-            const files = await fs.promises.readdir('sounds');
-            files.forEach(element => listado.push(" "+element.substr(0,element.indexOf('.'))));
-            const contador = 10000;
-
 
             if(parameter == 'listar'){
-                message.reply("Lista de sonidos --> " + listado);
+                interaction.channel.send("Lista de sonidos --> " + listado);
             }else{
                 const player = createAudioPlayer();
             
@@ -33,21 +48,10 @@ module.exports = {
                     const resource = createAudioResource(`sounds/${parameter}.mp3`);
 
                     player.on('error', (error) => {
-                        message.reply("No existe ese audio mongolín.");
+                        interaction.channel.send("No existe ese audio mongolín.");
+                        console.log(error);
                     });
-
-                    let encontrado = "";
-                    try {
-                        encontrado = listado.find(element => (element.toUpperCase().trim()) == (parameter[0].toUpperCase().trim()));
-                    } catch (error) {
-                        encontrado = "dontexist";
-                    }
-                   
-                    console.log(encontrado);
                 
-                    if(encontrado == undefined || (parameter[0].toUpperCase().trim()) != encontrado.trim().toUpperCase()){
-                        message.reply("No existe ese audio mongolín.");
-                    } else{
                         player.play(resource);
 
                         const conexionCanal = joinVoiceChannel({
@@ -55,14 +59,14 @@ module.exports = {
                             guildId: guildId,
                             adapterCreator: voiceChannel.guild.voiceAdapterCreator,
                         });
-            
                         const subscripcion = conexionCanal.subscribe(player);
-            
+                        
                         //Cuando termina lo que este reproduciendo, se sale
                         player.on(AudioPlayerStatus.Idle, () => {
                             setTimeout(() => desconectar(subscripcion,conexionCanal),1800000);
                         });
-                    }
+                        interaction.channel.send({content: "Sonido "+parameter+" reproducido correctemente.", ephemeral: true});
+                    
                 } catch (error) {
                     console.log(error);
                 } 
@@ -71,10 +75,8 @@ module.exports = {
             function desconectar(subscripcion, conexionCanal){
                 subscripcion.unsubscribe();
                 conexionCanal.disconnect();
-                message.reply({content: "Sonido "+parameter+" reproducido correctemente.", ephemeral: true});
 
             }
-            
         }
 	}
 };
